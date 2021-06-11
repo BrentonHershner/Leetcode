@@ -1,7 +1,6 @@
 import { jest } from '@jest/globals';
 import longestCommonPrefix from './longestCommonPrefix';
 
-
 describe('longestCommonPrefix', () => {
 
   test('return longest prefix of two elements in an array', () => {
