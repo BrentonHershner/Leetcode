@@ -6,14 +6,16 @@
   "configurations": [
     {
       "command": "npm test",
+      "args": ["--input-type=module"],
       "name": "Run npm test",
       "request": "launch",
-      "type": "node-terminal"
+      "type": "node"
     },
     {
       "name": "Launch Program",
       "program": "${file}",
       "request": "launch",
+      "args": ["--input-type=module"],
       "skipFiles": [
         "<node_internals>/**"
       ],
