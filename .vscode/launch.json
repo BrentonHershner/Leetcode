@@ -6,10 +6,10 @@
   "configurations": [
     {
       "command": "npm test",
-      "args": ["--input-type=module"],
+      // "args": ["--input-type=module"],
       "name": "Run npm test",
       "request": "launch",
-      "type": "node"
+      "type": "node-terminal"
     },
     {
       "name": "Launch Program",

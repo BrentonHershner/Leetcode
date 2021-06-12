@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import maxSubArray from './maxSubArray';
+import maxSubArray from './maxSubArray.js';
 
 describe('maxSubArray', () => {
 
