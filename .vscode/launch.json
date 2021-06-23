@@ -9,6 +9,10 @@
       // "args": ["--input-type=module"],
       "name": "Run npm test",
       "request": "launch",
+      "skipFiles": [
+        "${workplaceFolder}/node_modules/**/*.js",
+        "<node_internals>/**/*.js"
+      ],
       "type": "node-terminal"
     },
     {
@@ -17,9 +21,23 @@
       "request": "launch",
       "args": ["--input-type=module"],
       "skipFiles": [
-        "<node_internals>/**"
+        "${workplaceFolder}/node_modules/**/*.js",
+        "<node_internals>/**/*.js"
       ],
       "type": "pwa-node"
+    },
+    {
+      "name": "Debug Jest Tests",
+      "type": "node",
+      "request": "launch",
+      "runtimeArgs": [
+        "--inspect-brk",
+        "${workspaceRoot}/node_modules/.bin/jest",
+        "--runInBand"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen",
+      "port": 9229
     }
   ]
 }
