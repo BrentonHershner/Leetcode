@@ -4,27 +4,18 @@ function findClosestValueInBst(tree, target) {
 
   function recursiveFindClosest(tree, target) {
     if (!tree || !target) {return null};
-
     const children = [];
     tree.right && children.push(tree.right);
     tree.left && children.push(tree.left);
-    children
-    // if no children, return value
     if (!children.length) { return tree.value; }
-
     const closestChildren = children.map(child => {
       return recursiveFindClosest(child, target)
     })
-
     closest = returnClosest(target, tree.value, ...closestChildren);
-    
-    // return closer of each recursive call
     return closest;
   }
   recursiveFindClosest(tree, target);
-
   return closest;
-
 }
 
 const returnClosest = (target, ...candidates) => {

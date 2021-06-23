@@ -19,16 +19,4 @@ describe('findClosestValueInBst', () => {
 
   });
 
-  // test('return longest prefix of three elements in an array', () => {
-  //   expect(findClosestValueInBst(['flower', 'flow', 'flight'])).toEqual('fl');
-  // });
-
-  // test('return an empty string if there are no common prefix', () => {
-  //   expect(findClosestValueInBst(['dog', 'racecar', 'car'])).toEqual('');
-  // });
-
-  // test('return just the common prefix even when suffixes match', () => {
-  //   expect(findClosestValueInBst(['cir', 'car'])).toEqual('c');
-  // });
-
 });
