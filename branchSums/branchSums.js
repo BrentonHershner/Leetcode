@@ -2,11 +2,14 @@ function branchSums(root) {
   // Write your code here.
 
   const sums = [];
-
+  const sumBranches = (tree) => {
+    
+  }
   // DFS
   // add every node encountered to current sum
+    // need to pass in the current tree and current sum
   // as soon as a leaf is encountered, push the sum to sums array
-
+  return sums;
 }
 
 // This is the class of the input tree. Do not edit.
@@ -18,7 +21,7 @@ export class BinaryTree {
   }
 
   insert(values, i = 0) {
-    if (i >= values.length) return;
+    if (i >= values.length) {return};
     const queue = [this];
     while (queue.length > 0) {
       let current = queue.shift();

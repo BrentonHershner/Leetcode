@@ -8,31 +8,5 @@ describe('branchSums', () => {
     expect(branchSums(tree)).toEqual([15, 16, 18, 10, 11]);
   });
   
-  class BinaryTree extends BinaryTree {
-    constructor(value) {
-      super(value);
-    }
-  
-    insert(values, i = 0) {
-      if (i >= values.length) return;
-      const queue = [this];
-      while (queue.length > 0) {
-        let current = queue.shift();
-        if (current.left === null) {
-          current.left = new BinaryTree(values[i]);
-          break;
-        }
-        queue.push(current.left);
-        if (current.right === null) {
-          current.right = new BinaryTree(values[i]);
-          break;
-        }
-        queue.push(current.right);
-      }
-      this.insert(values, i + 1);
-      return this;
-    }
-  }
-  
 
 });
