@@ -7,8 +7,8 @@ function branchSums(root) {
       sums.push(currentSum);
       return;
     }
-    if (tree.left) {sumBranches(tree.left, currentSum);}
-    if (tree.right) {sumBranches(tree.right, currentSum);}
+    if (tree.left) { sumBranches(tree.left, currentSum); }
+    if (tree.right) { sumBranches(tree.right, currentSum); }
   }
 
   sumBranches(root);
@@ -25,7 +25,7 @@ export class BinaryTree {
   }
 
   insert(values, i = 0) {
-    if (i >= values.length) {return};
+    if (i >= values.length) { return };
     const queue = [this];
     while (queue.length > 0) {
       let current = queue.shift();
