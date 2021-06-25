@@ -42,7 +42,7 @@ export class BinaryTree {
 }
 
 const tree = new BinaryTree(1).insert([2, 3, 4, 5, 6, 7, 8, 9, 10]);
-console.log(branchSums(tree)) //  [15, 16, 18, 10, 11];
+// console.log(branchSums(tree)) //  [15, 16, 18, 10, 11];
 
 // Do not edit the line below.
 
