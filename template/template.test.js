@@ -14,8 +14,4 @@ describe('template', () => {
     expect(template()).toBeDefined();
   });
 
-  it('should return true', () => {
-    expect(template()).toBe(true);
-  });
-
 });
