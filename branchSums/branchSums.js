@@ -1,14 +1,18 @@
 function branchSums(root) {
-  // Write your code here.
 
   const sums = [];
-  const sumBranches = (tree) => {
-    
+  const sumBranches = (tree, currentSum = 0) => {
+    currentSum += tree.value;
+    if (!tree.right && !tree.left) {
+      sums.push(currentSum);
+      return;
+    }
+    if (tree.left) {sumBranches(tree.left, currentSum);}
+    if (tree.right) {sumBranches(tree.right, currentSum);}
   }
-  // DFS
-  // add every node encountered to current sum
-    // need to pass in the current tree and current sum
-  // as soon as a leaf is encountered, push the sum to sums array
+
+  sumBranches(root);
+
   return sums;
 }
 
@@ -41,8 +45,8 @@ export class BinaryTree {
   }
 }
 
-const tree = new BinaryTree(1).insert([2, 3, 4, 5, 6, 7, 8, 9, 10]);
-// console.log(branchSums(tree)) //  [15, 16, 18, 10, 11];
+const tree = new BinaryTree(1).insert([2]);
+console.log(branchSums(tree)) //  [15, 16, 18, 10, 11];
 
 // Do not edit the line below.
 
