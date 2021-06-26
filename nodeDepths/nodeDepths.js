@@ -34,9 +34,6 @@ export class BinaryTree {
   }
 }
 
-const tree = new BinaryTree(1).insert([2]);
-console.log(nodeDepths(tree)) //  [15, 16, 18, 10, 11];
-
 // Do not edit the line below.
 
 export default nodeDepths;
