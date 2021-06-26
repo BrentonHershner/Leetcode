@@ -23,8 +23,4 @@ class Node {
   }
 }
 
-// const graph = new Node('A');
-// graph.addChild('B').addChild('C').addChild('D');
-// console.log(graph.depthFirstSearch(graph));
-
 export default Node;
