@@ -1,6 +1,10 @@
 const minimumWaitingTime = (queries) => {
-  if (queries.length === 1) { return 0; }
-  return minimumWaitingTime(queries.slice(0, queries.length - 1));
+  queries.sort((a, b) => a - b);
+  let totalWaitingTime = 0;
+  for (let i = 0; i < queries.length; i++){
+    totalWaitingTime += (queries.length - (i + 1)) * queries[i];
+  }
+  return totalWaitingTime;
 };
 
 export default minimumWaitingTime;
