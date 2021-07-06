@@ -23,7 +23,11 @@ describe('minimumWaitingTime', () => {
   });
 
   it('should return the correct result for three queries', () => {
-    expect(minimumWaitingTime([5,1,4])).toBe(11);
+    expect(minimumWaitingTime([5,1,4])).toBe(6);
+  });
+
+  it('should return the correct result for 5 queries', () => {
+    expect(minimumWaitingTime([3,2,1,2,6])).toBe(17);
   });
 
 });

@@ -9,9 +9,4 @@ const lengthOfLongestString = (s) => {
   }, 0);
 };
 
-
-
-
-
-
 export default lengthOfLongestString;
