@@ -4,7 +4,7 @@ const textEditor = (queries) => {
   let cursor = 0;
   let sel = null;
   let clipboard = null;
-  const hist = [];
+  let hist = [];
   let histIndex = 0;
   const results = [];
 
@@ -52,7 +52,7 @@ const textEditor = (queries) => {
     replace(last.oldString, last.cursor);
     histIndex--;
   }
-  
+
   const redo = () => {
     const last = hist[histIndex];
     replace(last.newString, last.cursor);
@@ -65,6 +65,7 @@ const textEditor = (queries) => {
 
     const updateString = () => {
       results.push(string);
+      hist = hist.slice(0, histIndex);
       histIndex++;
     }
 
@@ -107,9 +108,20 @@ const textEditor = (queries) => {
       redo();
       results.push(string);
     }
+    
   })
 
   return results;
 };
+
+const queries = [
+  ["APPEND", "hello world!"],
+  ["SELECT", "6", "10"],
+  ["BACKSPACE"],
+  ["UNDO"],
+  ["APPEND", "you"]
+];
+
+console.log(textEditor(queries));
 
 export default textEditor;
