@@ -5,102 +5,108 @@ const textEditor = (queries) => {
   let sel = null;
   let clipboard = '';
   const hist = [];
-  let future = [];
+  let histIndex = 0;
   const results = [];
 
-  const append = (str, pos = cursor) => {
-    if (sel) {
-      backspace();
-      pos = cursor;
-    }
-    string = string.slice(0, pos) + str + string.slice(pos);
-    cursor += str.length;
-    hist.push({action: 'append', str, pos});
-    future = [];
+  const add = (newString) => {
+    string = string.slice(0, cursor) + newString + string.slice(cursor);
+    cursor += newString.length;
   }
-  const backspace = (pos = cursor) => {
-    let str = '';
+
+  const del = (pos = cursor) => {
+    if (pos === 0) { return ''; }
+    let oldString = '';
     if (sel) {
-      str = string.slice(sel.start, sel.end);
-      string = string.slice(0, sel.start) + string.slice(sel.end);
+      oldString = string.slice(sel.start, sel.end + 1);
+      string = string.slice(0, sel.start) + string.slice(sel.end + 1)
       cursor = sel.start;
-      sel = null;
-    } else if (cursor === 0) {
-      return;
     } else {
-      str = string[pos - 1];
+      oldString = string[pos - 1];
       string = string.slice(0, pos - 1) + string.slice(pos);
       cursor--;
     }
     sel = null;
-    hist.push({action: 'backspace', str, pos})
-    future = [];
+    return oldString;
   }
 
-  const move = (dis) => {
-    if (dis < 0) { cursor = Math.max(dis, 0); }
-    if (dis > 0) { cursor = Math.min(dis, string.length); }
-    sel = null;
-  }
   const select = (start, end) => {
     start = Math.max(start, 0);
     end = Math.min(end, string.length);
-    if (start === end) {
-      cursor = start;
-    } else {
-      sel = {start, end};
-    }
+    start === end ? cursor = start : sel = { start, end }
   }
+
+  const replace = (newString = '', pos = cursor) => {
+    const oldString = sel ? del(pos) : '';
+    add(newString);
+    select(pos, pos + newString.length - 1);
+    return oldString;
+  }
+
   const copy = () => {
     if (!sel) { return; }
-    clipboard = string.slice(sel.start, sel.end);
+    clipboard = string.slice(sel.start, sel.end + 1);
   }
-  const paste = () => {
-    if (!clipboard) {return;}
-    append(clipboard);
-  }
+
   const undo = () => {
-    if (hist.length === 0) { return; }
-    const last = hist.pop();
-    future.push(last);
-    if (last.action === 'append') {
-      string = string.slice(0, last.pos) + string.slice(last.pos + last.str.length);
-      cursor = last.pos;
-    } else if (last.action === 'backspace') {
-      string = string.slice(0, last.pos) + last.str + string.slice(last.pos + last.str.length);
-      cursor = last.pos;
-    }
+    const last = hist[histIndex - 1];
+    replace(last.oldString, last.cursor);
+    histIndex--;
   }
+  
   const redo = () => {
-    if (future.length === 0) { return; }
-    const last = future.pop();
-    if (last.action === 'append') {
-      append(last.str, last.pos);
-    } else if (last.action === 'backspace') {
-      select(last.pos = last.str.length, last.pos);
-      backspace();
-    }
+    const last = hist[histIndex];
+    replace(last.newString, last.cursor);
+    histIndex++;
   }
 
   queries.forEach(query => {
-    let cmd = query[0];
-    let val = query[1];
+    const [cmd, val, end] = query;
+    let oldString = '';
 
-    if (cmd === 'APPEND') { append(val); }
-    if (cmd === 'BACKSPACE') { backspace(); }
-    if (cmd === 'MOVE') { move(Number(val)); }
-    if (cmd === 'SELECT') { select(query[1], query[2]); }
+    const updateString = () => {
+      results.push(string);
+      histIndex++;
+    }
+
+    if (cmd === 'APPEND') {
+      const change = { cmd: 'replace', cursor, oldString, newString: val }
+      change.oldString = sel ? replace(val) : add(val);
+      updateString();
+      hist.push(change);
+    }
+    if (cmd === 'BACKSPACE') {
+      const change = { cmd: 'replace', newString: '' }
+      change.cursor = sel ? sel.start : cursor - 1;
+      change.oldString = del();
+      updateString();
+      hist.push(change);
+    }
+    if (cmd === 'MOVE') {
+      val <= 0 ? cursor = 0 : cursor = Math.min(val, string.length);
+      sel = null;
+    }
+    if (cmd === 'SELECT') { select(val, end); }
+    if (cmd === 'CUT') {
+      copy();
+      oldString = del();
+      updateString();
+      hist.push({ cmd: 'replace', cursor, oldString, newString: '' });
+    }
     if (cmd === 'COPY') { copy(); }
-    if (cmd === 'PASTE') { paste(); }
-    if (cmd === 'UNDO') { undo(); }
-    if (cmd === 'REDO') { redo(); }
-
-    if (cmd === 'APPEND' ||
-        cmd === 'BACKSPACE' ||
-        cmd === 'PASTE' ||
-        cmd === 'UNDO' ||
-        cmd === 'REDO'
-    ) { results.push(string); }
+    if (cmd === 'PASTE') {
+      if (!clipboard) { return; }
+      oldString = sel ? replace(clipboard) : add(clipboard);
+      updateString();
+      hist.push({ cmd: 'replace', cursor, oldString, newString: clipboard });
+    }
+    if (cmd === 'UNDO' && histIndex > 0) {
+      oldString = undo();
+      results.push(string);
+    }
+    if (cmd === 'REDO' && histIndex < hist.length) {
+      redo();
+      results.push(string);
+    }
   })
 
   return results;
