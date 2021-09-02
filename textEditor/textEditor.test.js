@@ -14,15 +14,6 @@ describe('textEditor', () => {
     expect(textEditor([[]])).toBeDefined();
   });
 
-  const test1 = [
-    ["APPEND", "You'll never find a rainbow if you're looking down"],
-    ["APPEND", ""],
-    ["MOVE", "-10"],
-    ["APPEND", "START. "],
-    ["MOVE", "57"],
-    ["APPEND", "END."],
-  ];
-
   it('should perform an append', () => {
     const queries = [
       ["APPEND", "hello"]
