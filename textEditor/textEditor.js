@@ -3,7 +3,7 @@ const textEditor = (queries) => {
   let string = '';
   let cursor = 0;
   let sel = null;
-  let clipboard = '';
+  let clipboard = null;
   const hist = [];
   let histIndex = 0;
   const results = [];
