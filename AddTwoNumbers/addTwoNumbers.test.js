@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { ListNode } from './addTwoNumbers';
+import { LinkedList, ListNode } from '../lib/dataStructures.js';
 import addTwoNumbers from './addTwoNumbers';
 
 const buildList = (arr) => {
@@ -16,25 +16,51 @@ const buildList = (arr) => {
 }
 
 describe('addTwoNumbers', () => {
-
   test('return zero', () => {
-    expect(addTwoNumbers(buildList([0]), buildList([0]))).toStrictEqual(buildList([0]));
+    const p1 = new LinkedList([0]);
+    const p2 = new LinkedList([0]);
+    const expected = new LinkedList([0]);
+    expect(addTwoNumbers(p1.head, p2.head)).toStrictEqual(expected.head);
   });
-
+  
   test('single digits', () => {
-    expect(addTwoNumbers(buildList([1]), buildList([4]))).toStrictEqual(buildList([5]));
+    const p1 = new LinkedList([1]);
+    const p2 = new LinkedList([4]);
+    const expected = new LinkedList([5]);
+    expect(addTwoNumbers(p1.head, p2.head)).toStrictEqual(expected.head);
   });
-
+  
   test('multiple digits, no remainder', () => {
-    expect(addTwoNumbers(buildList([1]), buildList([1, 2]))).toStrictEqual(buildList([2, 2]));
-    expect(addTwoNumbers(buildList([1]), buildList([3, 2, 1]))).toStrictEqual(buildList([4, 2, 1]));
-    expect(addTwoNumbers(buildList([3, 2, 1]), buildList([3, 2, 1]))).toStrictEqual(buildList([6, 4, 2]));
+    let p1 = new LinkedList([1]);
+    let p2 = new LinkedList([1,2]);
+    let expected = new LinkedList([2,2]);
+    expect(addTwoNumbers(p1.head, p2.head)).toStrictEqual(expected.head);
+    
+    p1 = new LinkedList([1]);
+    p2 = new LinkedList([3,2,1]);
+    expected = new LinkedList([4,2,1]);
+    expect(addTwoNumbers(p1.head, p2.head)).toStrictEqual(expected.head);
+    
+    p1 = new LinkedList([3,2,1]);
+    p2 = new LinkedList([3,2,1]);
+    expected = new LinkedList([6,4,2]);
+    expect(addTwoNumbers(p1.head, p2.head)).toStrictEqual(expected.head);
   });
-
+  
   test('multiple digits, with remainder', () => {
-    expect(addTwoNumbers(buildList([8]), buildList([8]))).toStrictEqual(buildList([6, 1]));
-    expect(addTwoNumbers(buildList([2, 4, 3]), buildList([5, 6, 4]))).toStrictEqual(buildList([7, 0, 8]));
-    expect(addTwoNumbers(buildList([9, 9, 9, 9, 9, 9, 9]), buildList([9, 9, 9, 9]))).toStrictEqual(buildList([8, 9, 9, 9, 0, 0, 0, 1]));
-  });
+    let p1 = new LinkedList([8]);
+    let p2 = new LinkedList([8]);
+    let expected = new LinkedList([6,1]);
+    expect(addTwoNumbers(p1.head, p2.head)).toStrictEqual(expected.head);
 
+    p1 = new LinkedList([2,4,3]);
+    p2 = new LinkedList([5,6,4]);
+    expected = new LinkedList([7,0,8]);
+    expect(addTwoNumbers(p1.head, p2.head)).toStrictEqual(expected.head);
+
+    p1 = new LinkedList([9, 9, 9, 9, 9, 9, 9]);
+    p2 = new LinkedList([9, 9, 9, 9]);
+    expected = new LinkedList([8, 9, 9, 9, 0, 0, 0, 1]);
+    expect(addTwoNumbers(p1.head, p2.head)).toStrictEqual(expected.head);
+  });
 });

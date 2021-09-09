@@ -1,20 +1,4 @@
-export function ListNode(val, next) {
-  this.val = (val === undefined ? 0 : val)
-  this.next = (next === undefined ? null : next)
-}
-
-const buildList = (arr) => {
-  let list = new ListNode();
-  const head = list;
-  arr.forEach((val, i) => {
-    list.val = val;
-    if (arr[i + 1] !== undefined) {
-      list.next = new ListNode();
-      list = list.next;
-    }
-  })
-  return head;
-}
+import { LinkedList, ListNode } from '../lib/dataStructures.js';
 
 const addTwoNumbers = (l1, l2) => {
   let p1 = l1;
